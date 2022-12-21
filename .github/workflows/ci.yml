@@ -14,6 +14,12 @@ jobs:
                                # used in the specific "build.sh"
     steps:
       - uses: actions/checkout@v2
+      - name: Set up Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install dependencies
+        run: npm install
       - name: Build
         run: npm run build
       - name: Pushes to client repository
