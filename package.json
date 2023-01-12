@@ -13,8 +13,10 @@
     "swagger-client": "^3.18.5",
     "web-vitals": "^2.1.4"
   },
-  "homepage": "https://faai-di-software.github.io/dev-site/",
+  "homepage": "https://faai-di-software.github.io/web/",
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
