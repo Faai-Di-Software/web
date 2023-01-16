@@ -10,6 +10,7 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    container: pandoc/latex
 
     strategy:
       matrix:
@@ -32,14 +33,17 @@ jobs:
     - name: Build
       run: npm run 
 
-    - name: Deploy
-      run: |
-        git config --global user.name $user_name
-        git config --global user.email $user_email
-        git remote set-url origin https://${github_token}@github.com/${repository}
-        npm run deploy
+    - name: creates output
+      run:  sh ./build.sh # some command from your repository that creates
+                            # output to "source-directory" ("output" in the example)
+    - name: Pushes to another repository
+      uses: cpina/github-action-push-to-another-repository@main
       env:
-        user_name: 'github-actions[bot]'
-        user_email: 'github-actions[bot]@users.noreply.github.com'
-        github_token: ${{ secrets.ACTIONS_DEPLOY_ACCESS_TOKEN }}
-        repository: ${{ github.repository }}
+        SSH_DEPLOY_KEY: ${{ secrets.SSH_DEPLOY_KEY }}
+        API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+      with:
+        source-directory: Faai-Di-Software/
+        destination-github-username: 'github-actions[bot]'
+        destination-repository-name: 'dev-site'
+        user-email: github-actions[bot]@users.noreply.github.com
+        target-branch: main
