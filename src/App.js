@@ -1,40 +1,34 @@
 import './App.css';
-import TransactionList from './components/TransactionList';
-import React, { useState, useRef } from 'react';
-import SwaggerClient from 'swagger-client';
+import TransactionTable from './components/transactions/TransactionTable';
+import React, { useState, useRef, useEffect } from 'react';
 
 function App() {
   const [transactions, setTransactions] = useState([
     /* Default values here */
-    {id: 1, description: "transaction1", amount: 4},
-    {id: 2, description: "transaction2", amount: 12}
+    {id: 1, date: "12-02-21", description: "transaction1", amount: 4},
+    {id: 2, date: "12-03-21", description: "transaction2", amount: 12}
   ]) // Object destructuring
 
-  const descriptionRef = useRef()
+  useEffect(() => {
+    // make request here
+  })
 
-  async function handleAddTransaction(e) {
-    const description = descriptionRef.current.value
-    if (description === '') return
-    setTransactions(prevTransactions => {
-      return [...prevTransactions, { id: 3, description: description, amount: 100 }] 
-      }
-    )
-    descriptionRef.current.value = null
 
-    const swagger = SwaggerClient('http://petstore.swagger.io/v2/swagger.json');
-    const response = await swagger.then(client => client.execute({
-        operationId: "getInventory",
-    }))
-    let result = response.data
-    console.log(result)
-  }
+  // const descriptionRef = useRef()
+
+  // async function handleAddTransaction(e) {
+  //   const description = descriptionRef.current.value
+  //   if (description === '') return
+  //   setTransactions(prevTransactions => {
+  //     return [...prevTransactions, { id: 3, description: description, amount: 100 }] 
+  //     }
+  //   )
+  //   descriptionRef.current.value = null
+  // }
 
   return (
     <>
-      <input type="text" ref={descriptionRef}></input>
-      <button onClick={handleAddTransaction}>Add</button>
-      <button>Clear</button>
-      <TransactionList transactions={transactions} /* These are props */ />
+      <TransactionTable transactions={transactions}></TransactionTable>
     </>
       
   )
