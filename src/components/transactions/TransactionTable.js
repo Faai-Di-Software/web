@@ -3,13 +3,13 @@ import React from 'react'
 export default function TransactionTable({transactions}) {
   return (
     <table>
-      <tbody>
+      <thead>
         <tr>
             <th>Date</th>
             <th>Description</th>
             <th>Amount</th>
         </tr>
-      </tbody>
+      </thead>
       <tbody>
         {
           transactions.map(transaction => {
